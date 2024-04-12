@@ -1,17 +1,8 @@
-import pg from "pg";
 
-const { Pool } = pg;
-
-const pool = new Pool({
-  user: "postgres",
-  host: "localhost",
-  database: "apirest",
-  password: "123456789",
-  port: 5432,
-});
+import query from "./modelo.js";
 
 const getUsers = (request, response) => {
-  pool.query("SELECT * FROM users ORDER BY id", (error, results) => {
+  query("SELECT * FROM users ORDER BY id", [], (error, results) => {
     if (error) {
       throw error;
     }
@@ -22,7 +13,7 @@ const getUsers = (request, response) => {
 const getUserById = (request, response) => {
   const id = parseInt(request.params.id);
 
-  pool.query("SELECT * FROM users WHERE id = $1", [id], (error, results) => {
+  query("SELECT * FROM users WHERE id = $1", [id], (error, results) => {
     if (error) {
       throw error;
     }
@@ -33,7 +24,7 @@ const getUserById = (request, response) => {
 const createUser = (request, response) => {
   const { name, email } = request.body;
 
-  pool.query(
+  query(
     "INSERT INTO users (name, email) VALUES ($1, $2) RETURNING *",
     [name, email],
     (error, results) => {
@@ -49,7 +40,7 @@ const updateUser = (request, response) => {
   const id = parseInt(request.params.id);
   const { name, email } = request.body;
 
-  pool.query(
+  query(
     "UPDATE users SET name = $1, email = $2 WHERE id = $3",
     [name, email, id],
     (error, results) => {
@@ -64,7 +55,7 @@ const updateUser = (request, response) => {
 const deleteUser = (request, response) => {
   const id = parseInt(request.params.id);
 
-  pool.query("DELETE FROM users WHERE id = $1", [id], (error, results) => {
+  query("DELETE FROM users WHERE id = $1", [id], (error, results) => {
     if (error) {
       throw error;
     }
