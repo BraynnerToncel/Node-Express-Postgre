@@ -1,4 +1,5 @@
-import pg from "pg";
+// modelo.js
+import pg from 'pg';
 
 const { Pool } = pg;
 
@@ -10,8 +11,16 @@ const pool = new Pool({
   port: 5432,
 });
 
-const query = (text, params, callback) => {
-  return pool.query(text, params, callback);
+const query = async (text, params, callback) => {
+  const client = await pool.connect();
+  try {
+    const result = await client.query(text, params);
+    callback(null, result);
+  } catch (error) {
+    callback(error, null);
+  } finally {
+    client.release();
+  }
 };
 
 export default query;
