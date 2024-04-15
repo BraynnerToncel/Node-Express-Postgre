@@ -1,11 +1,6 @@
 import express from "express";
-import {
-  getUsers,
-  getUserById,
-  createUser,
-  updateUser,
-  deleteUser,
-} from "./controlador.js";
+import { getUsers, getUserById, createUser, updateUser, deleteUser } from "./controlador.js";
+
 
 const router = express.Router();
 
