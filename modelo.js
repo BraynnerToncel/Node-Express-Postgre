@@ -1,4 +1,3 @@
-// model.js
 import pg from "pg";
 
 const { Pool } = pg;
@@ -50,4 +49,3 @@ const UserModel = {
 };
 
 export default UserModel;
-
